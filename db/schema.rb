@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130119095155) do
+ActiveRecord::Schema.define(:version => 20130119103129) do
 
   create_table "photos", :force => true do |t|
     t.string   "path"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20130119095155) do
     t.string   "rev"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "url"
   end
 
   add_index "photos", ["rev"], :name => "index_photos_on_rev"
