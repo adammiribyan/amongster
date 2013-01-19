@@ -11,7 +11,6 @@ module Dropbox
   # 1. Check for updates.
   # 2. Download new files.
   # 3. Remove deleted files from the db.
-  # 4. Return the last modified date.
   class Sucker
     attr_reader :session, :client
 
@@ -19,6 +18,22 @@ module Dropbox
       @session = DropboxSession.new(APP_KEY, APP_SECRET)
       @session.set_access_token(ACCESS_KEY, ACCESS_SECRET)
       @client = DropboxClient.new(@session, ACCESS_TYPE)
+    end
+
+    def modified?(current_cursor)
+      delta = @client.delta(current_cursor).to_options
+      delta[:entries].any?
+    end
+
+    def synchronize!
+    end
+
+    private
+
+    def get_new_files
+    end
+
+    def delete_old_files
     end
   end
 end

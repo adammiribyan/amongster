@@ -13,13 +13,15 @@ module Dropbox
         sucker.client.account_info['email'].should eq 'adam.miribyan@gmail.com'
       end
     end
+
+    describe '#modified?' do
+      it 'returns true if the remote state differs from the local one' do
+        Photo.stubs(:current_cursor).returns(nil)
+        sucker.modified?(Photo.current_cursor).should be_false
+      end
+    end
   end
 end
-
-# Photo:
-# - path
-# - cursor
-# - rev
 
 # if remote_folder.modified?
 #   remote_folder.synchronize!
