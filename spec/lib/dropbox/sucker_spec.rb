@@ -16,6 +16,11 @@ module Dropbox
   end
 end
 
+# Photo:
+# - path
+# - cursor
+# - rev
+
 # if remote_folder.modified?
 #   remote_folder.synchronize!
 # end
