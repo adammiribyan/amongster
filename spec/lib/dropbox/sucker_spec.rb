@@ -14,15 +14,11 @@ module Dropbox
       end
     end
 
-    describe '#modified?' do
+    describe '#remote_modified?' do
       it 'returns true if the remote state differs from the local one' do
         Photo.stubs(:current_cursor).returns(nil)
-        sucker.modified?(Photo.current_cursor).should be_false
+        sucker.remote_modified?(Photo.current_cursor).should be_true
       end
     end
   end
 end
-
-# if remote_folder.modified?
-#   remote_folder.synchronize!
-# end

@@ -8,9 +8,6 @@ module Dropbox
   ACCESS_SECRET = 'o50jot5m9xfl9h8'
   ACCESS_TYPE = :app_folder
 
-  # 1. Check for updates.
-  # 2. Download new files.
-  # 3. Remove deleted files from the db.
   class Sucker
     attr_reader :session, :client
 
@@ -20,20 +17,43 @@ module Dropbox
       @client = DropboxClient.new(@session, ACCESS_TYPE)
     end
 
-    def modified?(current_cursor)
-      delta = @client.delta(current_cursor).to_options
-      delta[:entries].any?
+    def remote_modified?(cursor = Photo.current_cursor)
+      delta = @client.delta(cursor)
+      delta['entries'].any?
     end
 
     def synchronize!
+      get_new_files
+      Photo.update_cursor(current_remote_cursor)
+    end
+
+    def get_new_files(local_revs = Photo.pluck(:rev))
+      new_revs = remote_revs - local_revs
+
+      @client.metadata('/')['contents'].each do |file|
+        if new_revs.include?(file['rev'])
+          Photo.create do |photo|
+            photo.rev  = file['rev']
+            photo.path = file['path']
+            photo.url  = @client.media(file['path'])['url']
+          end
+        end
+      end
     end
 
     private
 
-    def get_new_files
+    def current_remote_cursor
+      @client.delta['cursor']
     end
 
-    def delete_old_files
+    def remote_revs
+      revs = []
+      @client.metadata('/')['contents'].each do |file|
+        revs << file['rev']
+      end
+
+      revs
     end
   end
 end
