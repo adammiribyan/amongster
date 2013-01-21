@@ -35,10 +35,14 @@ module Dropbox
           Photo.create do |photo|
             photo.rev  = file['rev']
             photo.path = file['path']
-            photo.url  = @client.media(file['path'])['url']
+            photo.url  = url_from_path(file['path'])
           end
         end
       end
+    end
+
+    def url_from_path(path)
+      @client.media(path)['url']
     end
 
     private
