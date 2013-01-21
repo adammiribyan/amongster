@@ -1,3 +1,22 @@
-// Place all the styles related to the photos controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// TODO: Move this to layout.css.scss layer.
+.container > header {
+  margin: 1.4em 0 3em 0;
+
+  img.logo {
+    display: block;
+    width: 164px;
+    margin: 0 auto;
+  }
+}
+
+body.photos {
+  article {
+    & > img {
+      display: block;
+      max-width: 590px;
+      margin: 0 auto;
+    }
+
+    margin-bottom: 2em;
+  }
+}
