@@ -25,6 +25,7 @@ module Dropbox
     def synchronize!
       get_new_files
       Photo.update_cursor(current_remote_cursor)
+      Photo.all.each { |photo| photo.prolong_url! }
     end
 
     def get_new_files(local_revs = Photo.pluck(:rev))
@@ -41,8 +42,9 @@ module Dropbox
       end
     end
 
-    def url_from_path(path)
-      @client.media(path)['url']
+    def url_from_path(path, result_type = :url)
+      media_hash = @client.media(path)
+      result_type.to_s == 'url' ? media_hash['url'] : media_hash
     end
 
     private

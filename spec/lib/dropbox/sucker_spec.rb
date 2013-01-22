@@ -20,5 +20,23 @@ module Dropbox
         sucker.remote_modified?(Photo.current_cursor).should be_true
       end
     end
+
+    describe '#url_from_path', :url do
+      let(:media_hash) { {'url' => 'https://dl.dropbox.com/0/view/wvxv1fw6on24qw7/file.png', 'expires' => 'Thu, 16 Sep 2011 01:01:25 +0000'} }
+
+      before :each do
+        sucker.client.stubs(:media).with('path_to_photo').returns(media_hash)
+      end
+
+      it 'returns a Hash with just url' do
+        expect(sucker.url_from_path('path_to_photo')).to eq media_hash['url']
+      end
+
+      context 'when result_type is :array' do
+        it 'returns a Hash with url and its expiration date' do
+          expect(sucker.url_from_path('path_to_photo', :array)).to eq media_hash
+        end
+      end
+    end
   end
 end
