@@ -20,6 +20,10 @@ set :use_sudo, false
 set :branch, "master"
 set :deploy_to, "/home/#{user}/webapps/#{application}"
 
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
+
+
 namespace :config do
   task :symlink, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
@@ -27,7 +31,7 @@ namespace :config do
 end
 
 after "deploy:restart", "deploy:cleanup"
-after "deploy:symlink", "config:symlink"
+after "deploy:create_symlink", "config:symlink", "whenever:update_crontab"
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
