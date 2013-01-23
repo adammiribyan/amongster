@@ -1,3 +1,15 @@
 <% title 'Amongster' %>
 
-<%= render @photos %>
+<% @photos_by_month.each do |month, photos| %>
+  <%= content_tag :section, id: month.strftime("%B-%Y").downcase do %>
+    <%= render photos %>
+  <% end %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <ol>
+    <% @photos_by_month.each do |month, photos| %>
+      <li><%= link_to month.strftime("%B, %Y"), "##{month.strftime("%B-%Y").downcase}" %></li>
+    <% end %>
+  </ol>
+<% end %>

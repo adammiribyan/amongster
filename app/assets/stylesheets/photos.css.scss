@@ -19,4 +19,27 @@ body.photos {
 
     margin-bottom: 2em;
   }
+
+  aside {
+    position: fixed;
+
+    ol {
+      $link-color: #444;
+
+      line-height: 1.4;
+      list-style: none;
+      // background-color: #f1f1f1;
+
+      a {
+        color: $link-color;
+        border-bottom: 1px $link-color solid;
+        border-bottom-color: rgba(0, 0, 0, 0.33);
+        text-decoration: none;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+    }
+  }
 }
