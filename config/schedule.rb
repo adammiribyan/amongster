@@ -22,5 +22,6 @@
 set :output, 'log/cron_log.log'
 
 every 1.hour do
-  runner "Dropbox::Sucker.new.synchronize!"
+  rake "photos:synchronize"
+  # runner "Dropbox::Sucker.new.synchronize!"
 end
