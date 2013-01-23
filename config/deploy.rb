@@ -31,7 +31,7 @@ namespace :config do
 end
 
 after "deploy:restart", "deploy:cleanup"
-after "deploy:create_symlink", "config:symlink", "whenever:update_crontab"
+after "deploy:create_symlink", "config:symlink"
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
