@@ -20,7 +20,14 @@ set :use_sudo, false
 set :branch, "master"
 set :deploy_to, "/home/#{user}/webapps/#{application}"
 
+namespace :config do
+  task :symlink, roles: :app do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+end
+
 after "deploy:restart", "deploy:cleanup"
+after "deploy:symlink", "config:symlink"
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
