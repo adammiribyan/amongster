@@ -24,6 +24,7 @@ module Dropbox
 
     def synchronize!
       get_new_files
+      clear_deleted_files
       Photo.update_cursor(current_remote_cursor)
       Photo.all.each { |photo| photo.prolong_url! }
     end
@@ -39,6 +40,12 @@ module Dropbox
             photo.url  = url_from_path(file['path'])
           end
         end
+      end
+    end
+
+    def clear_deleted_files
+      Photo.all.each do |photo|
+        photo.destroy if @client.metadata(photo.path)['is_deleted'].to_s == 'true'
       end
     end
 
