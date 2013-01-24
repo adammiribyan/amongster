@@ -20,6 +20,7 @@ set :use_sudo, false
 set :branch, "master"
 set :deploy_to, "/home/#{user}/webapps/#{application}"
 
+set :whenever_roles, :app
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
