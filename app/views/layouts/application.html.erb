@@ -7,9 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= [controller_name, action_name].join(" ") %>">
+  <%= render 'twitter' %>
+
   <div class="container">
     <header>
       <%= image_tag 'logo.png', class: 'logo' %>
+
+      <div class="social-buttons">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+      </div>
     </header>
 
     <aside>
